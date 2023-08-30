@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.Callable;
+import java.util.logging.Logger;
 
 import picocli.CommandLine;
 
@@ -62,7 +63,7 @@ public class EntryPoint implements Callable {
         TransApi api = new TransApi(APP_ID, SECURITY_KEY);
         String result = jsonParse(api.getTransResult(query, from, to, domain));
         if (!StringUtils.isEmpty(result)) {
-            System.out.println(result);
+            LogUtils.info(result);
         }
         return result;
     }

@@ -16,7 +16,12 @@
 
 package com.baidu.translate.logger;
 
+import java.io.OutputStream;
+import java.util.logging.ConsoleHandler;
+
+import java.util.logging.Handler;
 import java.util.logging.Level;
+
 import java.util.logging.Logger;
 
 /**
@@ -25,20 +30,30 @@ import java.util.logging.Logger;
  */
 public class LogUtils {
 
-    private static final Logger LOGGER = Logger.getLogger("translate");
+    private static final Logger LOGGER;
+
+    static {
+        LOGGER = Logger.getLogger(LogUtils.class.getName());
+        LOGGER.setUseParentHandlers(false);
+
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        CustomFormatter formatter = new CustomFormatter();
+        consoleHandler.setFormatter(formatter);
+        LOGGER.addHandler(consoleHandler);
+    }
 
     private LogUtils() {
     }
 
     public static void e(String msg) {
-        LOGGER.log(Level.WARNING, msg);
+        LOGGER.severe(msg);
     }
 
     public static void e(String msg, Throwable throwable) {
-        LOGGER.log(Level.WARNING, msg, throwable);
+        LOGGER.severe(msg);
     }
 
     public static void info(String msg) {
-        LOGGER.log(Level.INFO, msg);
+        LOGGER.info(msg);
     }
 }
