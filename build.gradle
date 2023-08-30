@@ -1,0 +1,39 @@
+plugins {
+    // Apply the java-library plugin for API and implementation separation.
+    id 'application'
+    id 'java'
+}
+
+application {
+    mainClassName = "Main"
+}
+
+// 自定义安装目录路径，安装到本地 ~/bin/translate-cli 目录下
+def installDir = file("../../bin/translate-cli")
+installDist {
+    into installDir
+}
+
+processResources {
+    from("${rootDir}/app.properties")
+}
+
+javaToolchains {
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    testImplementation "junit:junit:4.12"
+
+    implementation 'info.picocli:picocli:4.7.4'
+    implementation "org.apache.commons:commons-lang3:3.12.0"
+    implementation 'org.json:json:20230618'
+}
