@@ -17,6 +17,7 @@
 package com.baidu.translate.cli;
 
 import com.baidu.translate.demo.TransApi;
+import com.baidu.translate.logger.LogUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
@@ -55,7 +56,7 @@ public class EntryPoint implements Callable {
     @Override
     public Object call() throws Exception {
         if (query.isEmpty()) {
-            System.err.println("invalid params");
+            LogUtils.e("invalid params");
             return null;
         }
         TransApi api = new TransApi(APP_ID, SECURITY_KEY);
@@ -88,12 +89,12 @@ public class EntryPoint implements Callable {
         boolean failed = jsonObject.has("error_code");
         if (failed) {
             Object errorMsg = jsonObject.get("error_msg");
-            System.err.println(errorMsg);
+            LogUtils.e(errorMsg.toString());
             return null;
         }
         boolean hasResult = jsonObject.has("trans_result");
         if (!hasResult) {
-            System.err.println(jsonObject.toString());
+            LogUtils.e(jsonObject.toString());
             return null;
         }
         JSONArray transResult = jsonObject.getJSONArray("trans_result");
